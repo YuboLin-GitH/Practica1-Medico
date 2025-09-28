@@ -34,7 +34,7 @@ CREATE TABLE Especialidad(
  fk_idEsp int unsigned,
  FOREIGN KEY (fk_idEsp) REFERENCES Especialidad(idEsp),
   fk_idPaciente int unsigned,
- FOREIGN KEY (fk_idPaciente) REFERENCES Especialidad(idPaciente)
+ FOREIGN KEY (fk_idPaciente) REFERENCES Paciente(idPaciente)
  );
  
  
