@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import org.example.practica1medicoyubo.DAO.UsuarioDAO;
 
 
 public class IniciaSesiconController {
@@ -17,6 +18,8 @@ public class IniciaSesiconController {
 
     @FXML
     private Button btIniciar;
+
+    private UsuarioDAO usuarioDAO = new UsuarioDAO();
 
 
     @FXML

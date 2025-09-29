@@ -15,19 +15,19 @@ public class Paciente {
     private String nombre;
     private String password;
     private String direccion;
-    private String telefono;
+    private int telefono;
 
 
     public Paciente() {
     }
 
-    public Paciente(int id, String dni, String nombre, String password, String telefono, String direccion) {
+    public Paciente(int id, String dni, String nombre, String password, String direccion, int telefono) {
         this.idPaciente = id;
         this.dni = dni;
         this.nombre = nombre;
         this.password = password;
-        this.telefono = telefono;
         this.direccion = direccion;
+        this.telefono = telefono;
     }
 
     public int getId() {
@@ -70,11 +70,11 @@ public class Paciente {
         this.direccion = direccion;
     }
 
-    public String getTelefono() {
+    public int getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(String telefono) {
+    public void setTelefono(int telefono) {
         this.telefono = telefono;
     }
 }

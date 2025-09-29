@@ -12,30 +12,30 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #d9a7d7;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.practica1medicoyubo.controller.IniciaSesiconController">
-   <children>
-      <Circle fill="#f5f5f5" layoutX="311.0" layoutY="31.0" radius="17.0" stroke="BLACK" strokeType="INSIDE" />
-      <Button id="btIniciar" layoutX="134.0" layoutY="296.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="333.0" text="LOGIN" />
-      <Label contentDisplay="TOP" layoutX="187.0" layoutY="86.0" prefHeight="77.0" prefWidth="267.0" text="   User    Login" textAlignment="CENTER" textFill="#fcfcfc">
-         <font>
-            <Font name="Arial Nova Bold" size="34.0" />
-         </font>
-      </Label>
-      <TextField id="tfPaciente" layoutX="236.0" layoutY="178.0" promptText="Email ID">
-         <font>
-            <Font name="Arial" size="12.0" />
-         </font></TextField>
-      <PasswordField id="pfPassword" blendMode="LIGHTEN" layoutX="236.0" layoutY="235.0" promptText="Password">
-         <font>
-            <Font name="Arial" size="12.0" />
-         </font></PasswordField>
-      <CubicCurve controlX1="-67.0" controlX2="-50.0" controlY1="-84.0" controlY2="-30.0" endX="-44.0" endY="-23.0" fill="WHITE" layoutX="381.0" layoutY="101.0" startX="-98.0" startY="-23.0" stroke="BLACK" />
-      <ImageView blendMode="MULTIPLY" fitHeight="31.0" fitWidth="31.0" layoutX="195.0" layoutY="175.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/email.png" />
-         </image></ImageView>
-      <ImageView blendMode="MULTIPLY" fitHeight="31.0" fitWidth="34.0" layoutX="195.0" layoutY="232.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/candado.png" />
-         </image></ImageView>
-   </children>
+    <children>
+        <Circle fill="#f5f5f5" layoutX="311.0" layoutY="31.0" radius="17.0" stroke="BLACK" strokeType="INSIDE" />
+        <Button id="btIniciar" layoutX="134.0" layoutY="296.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="333.0" text="LOGIN" />
+        <Label contentDisplay="TOP" layoutX="187.0" layoutY="86.0" prefHeight="77.0" prefWidth="267.0" text="   User    Login" textAlignment="CENTER" textFill="#fcfcfc">
+            <font>
+                <Font name="Arial Nova Bold" size="34.0" />
+            </font>
+        </Label>
+        <TextField id="tfPaciente" layoutX="236.0" layoutY="178.0" promptText="Email ID">
+            <font>
+                <Font name="Arial" size="12.0" />
+            </font></TextField>
+        <PasswordField id="pfPassword" blendMode="LIGHTEN" layoutX="236.0" layoutY="235.0" promptText="Password">
+            <font>
+                <Font name="Arial" size="12.0" />
+            </font></PasswordField>
+        <CubicCurve controlX1="-67.0" controlX2="-50.0" controlY1="-84.0" controlY2="-30.0" endX="-44.0" endY="-23.0" fill="WHITE" layoutX="381.0" layoutY="101.0" startX="-98.0" startY="-23.0" stroke="BLACK" />
+        <ImageView blendMode="MULTIPLY" fitHeight="31.0" fitWidth="31.0" layoutX="195.0" layoutY="175.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../images/email.png" />
+            </image></ImageView>
+        <ImageView blendMode="MULTIPLY" fitHeight="31.0" fitWidth="34.0" layoutX="195.0" layoutY="232.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../images/candado.png" />
+            </image></ImageView>
+    </children>
 </AnchorPane>

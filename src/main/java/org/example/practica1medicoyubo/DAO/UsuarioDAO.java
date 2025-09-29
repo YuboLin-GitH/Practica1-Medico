@@ -1,11 +1,12 @@
 package org.example.practica1medicoyubo.DAO;
 
+import org.example.practica1medicoyubo.domain.Paciente;
 import org.example.practica1medicoyubo.util.R;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -34,6 +35,48 @@ public class UsuarioDAO {
         conexion = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + name + "?serverTimezone=UTC",
                 username, password);
     }
+
+
+    public List<Paciente> obtenerUsuarios() throws SQLException {
+        List<Paciente> Usuarios = new ArrayList<>();
+        String sql = "SELECT * FROM paciente";
+
+        PreparedStatement sentencia = conexion.prepareStatement(sql);
+        ResultSet resultado = sentencia.executeQuery();
+        while (resultado.next()) {
+            Paciente usuario = new Paciente();
+            usuario.setId(resultado.getInt(1));
+            usuario.setDni(resultado.getString(2));
+            usuario.setNombre(resultado.getString(3));
+            usuario.setPassword(resultado.getString(4));
+            usuario.setDireccion(resultado.getString(5));
+            usuario.setTelefono(resultado.getInt(6));
+            Usuarios.add(usuario);
+        }
+
+        return Usuarios;
+    }
+    public boolean valiadarUsuario(int idPaciente ) throws SQLException{
+        String sql = "SELECT * FROM paciente WHERE idPaciente = ?";
+        PreparedStatement sentencia = conexion.prepareStatement(sql);
+        sentencia.setInt(1, idPaciente);
+        ResultSet resultado = sentencia.executeQuery();
+        List<Paciente> usuarios = new ArrayList<>();
+       /*
+        for (Paciente usuario : usuarios) {
+            if (usuario.getEmail().equals(email) && usuario.getPassword().equals(password)) {
+                return true;
+            }
+        }
+        return false;
+
+        */
+        return false;
+    }
+
+
+
+
 
 
 }
