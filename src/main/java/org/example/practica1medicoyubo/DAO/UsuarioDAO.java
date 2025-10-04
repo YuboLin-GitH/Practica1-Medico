@@ -1,5 +1,6 @@
 package org.example.practica1medicoyubo.DAO;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.example.practica1medicoyubo.domain.Paciente;
 import org.example.practica1medicoyubo.util.R;
 
@@ -56,22 +57,15 @@ public class UsuarioDAO {
 
         return Usuarios;
     }
-    public boolean valiadarUsuario(int idPaciente ) throws SQLException{
-        String sql = "SELECT * FROM paciente WHERE idPaciente = ?";
-        PreparedStatement sentencia = conexion.prepareStatement(sql);
-        sentencia.setInt(1, idPaciente);
+    public boolean valiadarUsuario(String nombre, String passwordPlano) throws SQLException{
+        String sql = "SELECT * FROM paciente WHERE nombre = ? AND password = ?";
+        try (    PreparedStatement sentencia = conexion.prepareStatement(sql)) {
+            String passwordHash = DigestUtils.sha256Hex(passwordPlano);
+            sentencia.setString(1, nombre);
+            sentencia.setString(2, passwordHash);
         ResultSet resultado = sentencia.executeQuery();
-        List<Paciente> usuarios = new ArrayList<>();
-       /*
-        for (Paciente usuario : usuarios) {
-            if (usuario.getEmail().equals(email) && usuario.getPassword().equals(password)) {
-                return true;
-            }
+            return resultado.next();
         }
-        return false;
-
-        */
-        return false;
     }
 
 

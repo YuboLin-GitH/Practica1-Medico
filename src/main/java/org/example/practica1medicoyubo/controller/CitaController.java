@@ -1,5 +1,6 @@
 package org.example.practica1medicoyubo.controller;
 
+import javafx.fxml.FXML;
 import org.example.practica1medicoyubo.DAO.CitaDAO;
 import org.example.practica1medicoyubo.util.AlertUtils;
 
@@ -9,7 +10,13 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class CitaController {
-        public TextField tfTelefono;
+    @FXML
+    public TextField tfTelefon;
+
+    private enum Accion {
+        NUEVO, MODIFICAR
+    }
+    private Accion accion;
 
 
     private final CitaDAO citaDAO;
@@ -29,6 +36,10 @@ public class CitaController {
 
         System.out.println(System.getProperty("user.home"));
     }
+
+
+
+
 
 }
  

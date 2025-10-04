@@ -27,6 +27,21 @@ public class CitaDAO {
     }
 
 
+    public void desconectar() throws SQLException {
+        conexion.close();
+    }
+
+    public void guardarCita(Cita cita) throws SQLException {
+        String sql = "INSERT INTO coches (idPaciente, marca, modelo, tipo) VALUES (?, ?, ?, ?)";
+
+        PreparedStatement sentencia = conexion.prepareStatement(sql);
+        sentencia.setInt(1, cita.getIdCita());
+        sentencia.setString(2, cita.getMarca());
+        sentencia.setString(3, cita.getModelo());
+        sentencia.setString(4, cita.getTipo());
+        sentencia.executeUpdate();
+    }
+
     public void eliminarCita(Cita cita) throws SQLException {
         String sql = "DELETE FROM cita WHERE idCita = ?";
 
@@ -41,7 +56,7 @@ public class CitaDAO {
         PreparedStatement sentencia = conexion.prepareStatement(sql);
         sentencia.setInt(1, citaNuevo.getIdCita());
         sentencia.setDate(2, (Date) citaNuevo.getFechaCita());
-        sentencia.setInt(5, citaAntiguo.getIdCita());
+        sentencia.setInt(3, citaAntiguo.getIdCita());
         sentencia.executeUpdate();
     }
 

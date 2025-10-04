@@ -7,7 +7,7 @@ CREATE TABLE Paciente(
 idPaciente int unsigned auto_increment primary key, 
 dni varchar(9),
 nombre varchar(30),
-pass varchar(64),
+password varchar(64),
 direccion varchar(100),
 telefono int(9) 
  );
@@ -18,8 +18,8 @@ telefono int(9)
  (3,"62145448C","Lucia",SHA2("lucia",256),"c/ CCC", 611224013),
  (4,"91321654D","Martina",SHA2("martina",256),"c/ DDD", 618434555),
  (5,"51248345E","Sofia",SHA2("sofia",256),"c/ EEE", 649161161),
- (6,"84345876F","Hugo","SHA2(hugo",256),"c/ FFF", 616713488),
- (7,"81431548G","Leo","SHA2(leo",256),"c/ GGG", 668453178),
+ (6,"84345876F","Hugo",SHA2("hugo",256), "c/ FFF", 616713488),
+ (7,"81431548G","Leo",SHA2("leo",256),"c/ GGG", 668453178),
  (8,"11501548H","Daniel",SHA2("daniel",256),"c/ HHH", 691246578);
  
 

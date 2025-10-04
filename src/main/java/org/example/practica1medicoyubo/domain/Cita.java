@@ -11,7 +11,7 @@ import java.util.Date;
  * @Create 28/09/2025 16:19
  * @Version 1.0
  */
-public class Cita {
+public class Cita  {
     private int idCita;
     private Date fechaCita;
 
