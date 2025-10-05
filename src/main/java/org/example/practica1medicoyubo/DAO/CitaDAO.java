@@ -1,6 +1,7 @@
 package org.example.practica1medicoyubo.DAO;
 
 import org.example.practica1medicoyubo.domain.Cita;
+import org.example.practica1medicoyubo.domain.Especialidad;
 import org.example.practica1medicoyubo.util.R;
 
 import java.io.IOException;
@@ -32,13 +33,21 @@ public class CitaDAO {
     }
 
     public void guardarCita(Cita cita) throws SQLException {
-        String sql = "INSERT INTO coches (idPaciente, marca, modelo, tipo) VALUES (?, ?, ?, ?)";
-
+        String sql = "INSERT INTO cita (idCita, fechaCita, fk_idEsp, fk_idPaciente) VALUES (?, ?, ?, ?)";
         PreparedStatement sentencia = conexion.prepareStatement(sql);
         sentencia.setInt(1, cita.getIdCita());
-        sentencia.setString(2, cita.getMarca());
-        sentencia.setString(3, cita.getModelo());
-        sentencia.setString(4, cita.getTipo());
+        sentencia.setDate(2, new java.sql.Date(cita.getFechaCita().getTime()));
+        sentencia.setInt(3, cita.getFkIdEsp());
+        sentencia.setInt(4, cita.getFkIdPaciente());
+        sentencia.executeUpdate();
+    }
+
+    public void modificarCita(Cita citaAntiguo, Cita citaNuevo) throws SQLException {
+        String sql = "UPDATE cita SET fechaCita = ?, fk_idEsp = ? WHERE idCita = ?";
+        PreparedStatement sentencia = conexion.prepareStatement(sql);
+        sentencia.setDate(1, new java.sql.Date(citaNuevo.getFechaCita().getTime()));
+        sentencia.setInt(2, citaNuevo.getFkIdEsp());
+        sentencia.setInt(3, citaAntiguo.getIdCita());
         sentencia.executeUpdate();
     }
 
@@ -50,32 +59,56 @@ public class CitaDAO {
         sentencia.executeUpdate();
     }
 
-    public void modificarCoche(Cita citaAntiguo, Cita citaNuevo) throws SQLException {
-        String sql = "UPDATE cita SET idCita = ?, fechaCita = ? WHERE idCita = ?";
 
-        PreparedStatement sentencia = conexion.prepareStatement(sql);
-        sentencia.setInt(1, citaNuevo.getIdCita());
-        sentencia.setDate(2, (Date) citaNuevo.getFechaCita());
-        sentencia.setInt(3, citaAntiguo.getIdCita());
-        sentencia.executeUpdate();
-    }
 
-    public List<Cita> obtenerCita() throws SQLException {
+    public List<Cita> obtenerCitaPorPacienteId(int pacienteId) throws SQLException {
         List<Cita> citas = new ArrayList<>();
-        String sql = "SELECT * FROM cita";
-
+        String sql = "SELECT c.idCita, c.fechaCita, e.idEsp, e.nombreEsp " +
+                "FROM cita c JOIN especialidad e ON c.fk_idEsp = e.idEsp " +
+                "WHERE c.fk_idPaciente = ?";
         PreparedStatement sentencia = conexion.prepareStatement(sql);
-        ResultSet resultado = sentencia.executeQuery();
-        while (resultado.next()) {
+        sentencia.setInt(1, pacienteId);
+        ResultSet rs = sentencia.executeQuery();
+        while (rs.next()) {
             Cita cita = new Cita();
-            cita.setIdCita(resultado.getInt(1));
-            cita.setFechaCita(resultado.getDate(2));
-
-
+            cita.setIdCita(rs.getInt("c.idCita"));
+            cita.setFechaCita(rs.getDate("c.fechaCita"));
+            cita.setFkIdPaciente(pacienteId);
+            cita.setFkIdEsp(rs.getInt("e.idEsp"));
+            cita.setNombreEsp(rs.getString("e.nombreEsp"));
             citas.add(cita);
         }
-
         return citas;
     }
+
+    public int obtenerSiguienteIdCita() throws SQLException {
+        String sql = "SELECT MAX(idCita) AS ultimo FROM cita";
+        Statement st = conexion.createStatement();
+        ResultSet rs = st.executeQuery(sql);
+        if (rs.next()) {
+            return rs.getInt("ultimo") + 1;
+        }
+        return 1; // Si no hay ninguna cita, empezamos en 1
+    }
+
+    public List<Especialidad> obtenerTodas() throws SQLException {
+        List<Especialidad> especialidades = new ArrayList<>();
+        String sql = "SELECT idEsp, nombreEsp FROM especialidad";
+
+        try (PreparedStatement stmt = conexion.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+
+                int id = rs.getInt("idEsp");
+                String nombre = rs.getString("nombreEsp");
+                especialidades.add(new Especialidad(id, nombre));
+            }
+        }
+        return especialidades;
+    }
+
+
+
 
 }

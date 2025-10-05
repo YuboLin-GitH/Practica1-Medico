@@ -2,17 +2,17 @@ package org.example.practica1medicoyubo.controller;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.example.practica1medicoyubo.DAO.UsuarioDAO;
+import org.example.practica1medicoyubo.domain.Paciente;
 import org.example.practica1medicoyubo.util.R;
 
 
 public class IniciaSesiconController {
+
+    private UsuarioDAO usuarioDAO = new UsuarioDAO();
 
     @FXML
     private TextField tfPaciente;
@@ -23,7 +23,6 @@ public class IniciaSesiconController {
     @FXML
     private Button btIniciar;
 
-    private UsuarioDAO usuarioDAO = new UsuarioDAO();
 
 
     @FXML
@@ -39,12 +38,11 @@ public class IniciaSesiconController {
         try {
             usuarioDAO.conectar();
 
-            boolean valido = usuarioDAO.valiadarUsuario(nombre, password);
+            Paciente paciente = usuarioDAO.valiadarUsuario(nombre, password);
 
-            if (valido) {
+            if (paciente != null) {
                 mostrarAlerta("Éxito", "Inicio de sesión correcto ", Alert.AlertType.INFORMATION);
-                abrirVentanaCita();
-                // Cierra la ventana de login
+                abrirVentanaCita(paciente);
                 Stage stage = (Stage) btIniciar.getScene().getWindow();
                 stage.close();
             } else {
@@ -70,10 +68,12 @@ public class IniciaSesiconController {
     }
 
 
-    private void abrirVentanaCita() {
+    private void abrirVentanaCita(Paciente paciente) {
         try {
             FXMLLoader loader = new FXMLLoader(R.getUI("citas.fxml"));
             Scene scene = new Scene(loader.load());
+            CitaController citaController = loader.getController();
+            citaController.setPaciente(paciente);
             Stage stage = new Stage();
             stage.setTitle("Panel cita");
             stage.setScene(scene);
@@ -83,7 +83,6 @@ public class IniciaSesiconController {
             mostrarAlerta("Error", "No se pudo abrir la ventana principal", Alert.AlertType.ERROR);
         }
     }
-
 
 
 

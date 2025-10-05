@@ -29,8 +29,7 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <DatePicker layoutX="235.0" layoutY="39.0" />
-            <Button fx:id="btVerCita" layoutX="449.0" layoutY="142.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="150.0" style="-fx-background-radius: 35;" text="Ver citas Paciente" />
+            <DatePicker fx:id="dpFechaCita" layoutX="235.0" layoutY="39.0" />
             <Label layoutX="34.0" layoutY="150.0" text="DNI">
                <font>
                   <Font name="System Bold" size="18.0" />
@@ -57,9 +56,9 @@
             <TextField fx:id="tfNombre" layoutX="197.0" layoutY="193.0" prefHeight="25.0" prefWidth="433.0" promptText="Antonio García López " />
             <TextField fx:id="tfDNI" layoutX="104.0" layoutY="151.0" promptText="40254788A" />
 
-            <TableView layoutX="68.0" layoutY="517.0" prefHeight="188.0" prefWidth="533.0">
+            <TableView fx:id="tvCitasPaciente" layoutX="68.0" layoutY="517.0" prefHeight="188.0" prefWidth="533.0">
               <columns>
-                <TableColumn prefWidth="196.0" text="Nª Cita" />
+                <TableColumn prefWidth="196.0" text="Nª Cita"/>
                 <TableColumn prefWidth="158.0" text="Fecha" />
                 <TableColumn prefWidth="178.0" text="Especialidad" />
               </columns>
@@ -72,6 +71,7 @@
             <Button fx:id="btNuevaCita" layoutX="49.0" layoutY="741.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="119.0" style="-fx-background-radius: 35;" text="Nueva Cita" />
             <Button fx:id="btBorrarCita" layoutX="500.0" layoutY="741.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="119.0" style="-fx-background-radius: 35;" text="Borrar Cita" />
             <Button fx:id="btModificarCita" layoutX="275.0" layoutY="741.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="119.0" style="-fx-background-radius: 35;" text="Modificar Cita" />
+            <Button fx:id="btVerCita" layoutX="449.0" layoutY="142.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="150.0" style="-fx-background-radius: 35;" text="Ver citas Paciente"  />
          </children>
       </AnchorPane>
    </children>

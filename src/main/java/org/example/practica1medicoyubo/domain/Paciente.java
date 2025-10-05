@@ -21,8 +21,8 @@ public class Paciente {
     public Paciente() {
     }
 
-    public Paciente(int id, String dni, String nombre, String password, String direccion, int telefono) {
-        this.idPaciente = id;
+    public Paciente(int idPaciente, String dni, String nombre, String password, String direccion, int telefono) {
+        this.idPaciente = idPaciente;
         this.dni = dni;
         this.nombre = nombre;
         this.password = password;
@@ -30,12 +30,12 @@ public class Paciente {
         this.telefono = telefono;
     }
 
-    public int getId() {
+    public int getIdPaciente() {
         return idPaciente;
     }
 
-    public void setId(int id) {
-        this.idPaciente = id;
+    public void setIdPaciente(int idPaciente) {
+        this.idPaciente = idPaciente;
     }
 
     public String getDni() {
@@ -76,5 +76,18 @@ public class Paciente {
 
     public void setTelefono(int telefono) {
         this.telefono = telefono;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Paciente{" +
+                "idPaciente=" + idPaciente +
+                ", dni='" + dni + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", password='" + password + '\'' +
+                ", direccion='" + direccion + '\'' +
+                ", telefono=" + telefono +
+                '}';
     }
 }

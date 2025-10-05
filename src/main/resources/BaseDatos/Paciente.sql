@@ -27,7 +27,14 @@ CREATE TABLE Especialidad(
  idEsp int unsigned auto_increment primary key,
  nombreEsp enum("Cirugía","Dermatología","Pediatría","Oftalmología")
 );
- 
+INSERT INTO Especialidad (nombreEsp) VALUES
+    ("Cirugía"),
+    ("Dermatología"),
+    ("Pediatría"),
+    ("Oftalmología");
+
+
+
  CREATE TABLE Cita(
  idCita int unsigned auto_increment primary key,
  fechaCita date,
@@ -36,6 +43,12 @@ CREATE TABLE Especialidad(
   fk_idPaciente int unsigned,
  FOREIGN KEY (fk_idPaciente) REFERENCES Paciente(idPaciente)
  );
- 
- 
- 
+
+
+INSERT INTO Cita (fechaCita, fk_idEsp, fk_idPaciente) VALUES
+('2024-12-10', 1, 1),
+('2024-12-12', 2, 2),
+('2024-12-15', 3, 3),
+('2024-12-08', 4, 4),
+('2024-12-11', 1, 5),
+('2024-12-18', 2, 6);

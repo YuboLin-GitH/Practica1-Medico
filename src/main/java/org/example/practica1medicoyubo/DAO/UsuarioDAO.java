@@ -37,16 +37,21 @@ public class UsuarioDAO {
                 username, password);
     }
 
+    public void desconectar() throws SQLException {
+        if (conexion != null) conexion.close();
+    }
+
 
     public List<Paciente> obtenerUsuarios() throws SQLException {
+
         List<Paciente> Usuarios = new ArrayList<>();
         String sql = "SELECT * FROM paciente";
-
         PreparedStatement sentencia = conexion.prepareStatement(sql);
         ResultSet resultado = sentencia.executeQuery();
+
         while (resultado.next()) {
             Paciente usuario = new Paciente();
-            usuario.setId(resultado.getInt(1));
+            usuario.setIdPaciente(resultado.getInt(1));
             usuario.setDni(resultado.getString(2));
             usuario.setNombre(resultado.getString(3));
             usuario.setPassword(resultado.getString(4));
@@ -57,20 +62,29 @@ public class UsuarioDAO {
 
         return Usuarios;
     }
-    public boolean valiadarUsuario(String nombre, String passwordPlano) throws SQLException{
+    public Paciente valiadarUsuario(String nombre, String passwordPlano) throws SQLException{
         String sql = "SELECT * FROM paciente WHERE nombre = ? AND password = ?";
-        try (    PreparedStatement sentencia = conexion.prepareStatement(sql)) {
-            String passwordHash = DigestUtils.sha256Hex(passwordPlano);
+        String passwordHash = DigestUtils.sha256Hex(passwordPlano);
+
+        try (PreparedStatement sentencia = conexion.prepareStatement(sql)) {
             sentencia.setString(1, nombre);
             sentencia.setString(2, passwordHash);
-        ResultSet resultado = sentencia.executeQuery();
-            return resultado.next();
+            ResultSet resultado = sentencia.executeQuery();
+
+        if (resultado.next()) {
+            Paciente usuario = new Paciente();
+            usuario.setIdPaciente(resultado.getInt("idPaciente"));
+            usuario.setDni(resultado.getString("dni"));
+            usuario.setNombre(resultado.getString("nombre"));
+            usuario.setPassword(resultado.getString("password"));
+            usuario.setDireccion(resultado.getString("direccion"));
+            usuario.setTelefono(resultado.getInt("telefono"));
+            return usuario;
         }
+        return null;
     }
 
-
-
-
+  }
 
 
 }
