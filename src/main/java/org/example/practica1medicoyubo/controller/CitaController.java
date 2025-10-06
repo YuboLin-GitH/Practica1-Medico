@@ -18,14 +18,12 @@ import org.example.practica1medicoyubo.domain.Paciente;
 import org.example.practica1medicoyubo.util.AlertUtils;
 
 
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.List;
-import java.util.Optional;
+
 
 public class CitaController {
     @FXML
@@ -62,16 +60,10 @@ public class CitaController {
     private TableColumn<Cita, String> colEspecialidad;
 
 
-
-    private enum Accion {
-        NUEVO, MODIFICAR
-    }
-    private Accion accion;
     private final CitaDAO citaDAO ;
     private Paciente paciente;
 
     private Cita citaSeleccionada;
-
 
 
 
@@ -94,12 +86,14 @@ public class CitaController {
     @FXML
     public void initialize() {
 
-        cargarEspecialidades();
-        enlazarSeleccionDeTabla();
-        tfDNI.setOnKeyPressed(this::manejarEnterParaVerCita);
         colIdCita.setCellValueFactory(new PropertyValueFactory<>("idCita"));
         colFecha.setCellValueFactory(new PropertyValueFactory<>("fechaCita"));
         colEspecialidad.setCellValueFactory(new PropertyValueFactory<>("nombreEsp"));
+
+        cargarEspecialidades();
+
+        enlazarSeleccionDeTabla();
+        tfDNI.setOnKeyPressed(this::manejarEnterParaVerCita);
     }
 
     private void manejarEnterParaVerCita(KeyEvent event) {
@@ -212,7 +206,7 @@ public class CitaController {
     public void nuevaCita() {
 
         if (paciente == null) {
-            AlertUtils.mostrarError("introduceze DNI de paciente");
+            AlertUtils.mostrarError("Introduce DNI de paciente");
             return;
         }
         LocalDate fechaSeleccionada = dpFechaCita.getValue();
@@ -239,34 +233,6 @@ public class CitaController {
 
             verCita();
             limpiarCajas();
-        } catch (Exception e) {
-            AlertUtils.mostrarError("Error：" + e.getMessage());
-        } finally {
-            try {
-                citaDAO.desconectar();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    @FXML
-    public void borrarCita() {
-
-        if (citaSeleccionada == null) {
-            AlertUtils.mostrarError("el seleccionado no existe");
-            return;
-        }
-        try {
-            citaDAO.conectar();
-
-            citaDAO.eliminarCita(citaSeleccionada);
-            AlertUtils.mostrarInformacion("Cita eliminada");
-
-
-            verCita();
-            limpiarCajas();
-            citaSeleccionada = null;
         } catch (Exception e) {
             AlertUtils.mostrarError("Error：" + e.getMessage());
         } finally {
@@ -320,6 +286,33 @@ public class CitaController {
         }
     }
 
+    @FXML
+    public void borrarCita() {
+
+        if (citaSeleccionada == null) {
+            AlertUtils.mostrarError("el seleccionado no existe");
+            return;
+        }
+        try {
+            citaDAO.conectar();
+
+            citaDAO.eliminarCita(citaSeleccionada);
+            AlertUtils.mostrarInformacion("Cita eliminada");
+
+
+            verCita();
+            limpiarCajas();
+            citaSeleccionada = null;
+        } catch (Exception e) {
+            AlertUtils.mostrarError("Error：" + e.getMessage());
+        } finally {
+            try {
+                citaDAO.desconectar();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 
 

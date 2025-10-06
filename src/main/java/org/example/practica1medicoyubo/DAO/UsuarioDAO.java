@@ -41,28 +41,16 @@ public class UsuarioDAO {
         if (conexion != null) conexion.close();
     }
 
-
-    public List<Paciente> obtenerPacientes() throws SQLException {
-        List<Paciente> pacientes = new ArrayList<>();
-        String sql = "SELECT * FROM paciente";
-
-        PreparedStatement sentencia = conexion.prepareStatement(sql);
-        ResultSet resultado = sentencia.executeQuery();
-
-        while (resultado.next()) {
-            Paciente p = new Paciente();
-            p.setIdPaciente(resultado.getInt("idPaciente"));
-            p.setDni(resultado.getString("dni"));
-            p.setNombre(resultado.getString("nombre"));
-            p.setPassword(resultado.getString("password"));
-            p.setDireccion(resultado.getString("direccion"));
-            p.setTelefono(resultado.getInt("telefono"));
-            pacientes.add(p);
-        }
-
-        return pacientes;
+    private Paciente resultSetToPaciente(ResultSet resultado) throws SQLException {
+        Paciente p = new Paciente();
+        p.setIdPaciente(resultado.getInt("idPaciente"));
+        p.setDni(resultado.getString("dni"));
+        p.setNombre(resultado.getString("nombre"));
+        p.setPassword(resultado.getString("password"));
+        p.setDireccion(resultado.getString("direccion"));
+        p.setTelefono(resultado.getInt("telefono"));
+        return p;
     }
-
 
     public Paciente buscarPorDni(String dni) throws SQLException {
         String sql = "SELECT * FROM paciente WHERE dni = ?";
@@ -71,40 +59,13 @@ public class UsuarioDAO {
             ResultSet resultado = sentencia.executeQuery();
 
             if (resultado.next()) {
-                Paciente p = new Paciente();
-                p.setIdPaciente(resultado.getInt("idPaciente"));
-                p.setDni(resultado.getString("dni"));
-                p.setNombre(resultado.getString("nombre"));
-                p.setPassword(resultado.getString("password"));
-                p.setDireccion(resultado.getString("direccion"));
-                p.setTelefono(resultado.getInt("telefono"));
-                return p;
+                return resultSetToPaciente(resultado);
             }
         }
         return null;
     }
 
 
-    public List<Paciente> obtenerUsuarios() throws SQLException {
-
-        List<Paciente> Usuarios = new ArrayList<>();
-        String sql = "SELECT * FROM paciente";
-        PreparedStatement sentencia = conexion.prepareStatement(sql);
-        ResultSet resultado = sentencia.executeQuery();
-
-        while (resultado.next()) {
-            Paciente usuario = new Paciente();
-            usuario.setIdPaciente(resultado.getInt(1));
-            usuario.setDni(resultado.getString(2));
-            usuario.setNombre(resultado.getString(3));
-            usuario.setPassword(resultado.getString(4));
-            usuario.setDireccion(resultado.getString(5));
-            usuario.setTelefono(resultado.getInt(6));
-            Usuarios.add(usuario);
-        }
-
-        return Usuarios;
-    }
     public Paciente valiadarUsuario(String nombre, String passwordPlano) throws SQLException{
         String sql = "SELECT * FROM paciente WHERE nombre = ? AND password = ?";
         String passwordHash = DigestUtils.sha256Hex(passwordPlano);
@@ -114,22 +75,13 @@ public class UsuarioDAO {
             sentencia.setString(2, passwordHash);
             ResultSet resultado = sentencia.executeQuery();
 
-        if (resultado.next()) {
-            Paciente usuario = new Paciente();
-            usuario.setIdPaciente(resultado.getInt("idPaciente"));
-            usuario.setDni(resultado.getString("dni"));
-            usuario.setNombre(resultado.getString("nombre"));
-            usuario.setPassword(resultado.getString("password"));
-            usuario.setDireccion(resultado.getString("direccion"));
-            usuario.setTelefono(resultado.getInt("telefono"));
-            return usuario;
-        }
+            if (resultado.next()) {
+                return resultSetToPaciente(resultado);
+            }
         return null;
     }
 
   }
-
-
 
 
 

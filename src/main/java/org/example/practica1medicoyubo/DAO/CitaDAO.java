@@ -42,25 +42,6 @@ public class CitaDAO {
         sentencia.executeUpdate();
     }
 
-    public void modificarCita(Cita citaAntiguo, Cita citaNuevo) throws SQLException {
-        String sql = "UPDATE cita SET fechaCita = ?, fk_idEsp = ? WHERE idCita = ?";
-        PreparedStatement sentencia = conexion.prepareStatement(sql);
-        sentencia.setDate(1, new java.sql.Date(citaNuevo.getFechaCita().getTime()));
-        sentencia.setInt(2, citaNuevo.getFkIdEsp());
-        sentencia.setInt(3, citaAntiguo.getIdCita());
-        sentencia.executeUpdate();
-    }
-
-    public void eliminarCita(Cita cita) throws SQLException {
-        String sql = "DELETE FROM cita WHERE idCita = ?";
-
-        PreparedStatement sentencia = conexion.prepareStatement(sql);
-        sentencia.setInt(1, cita.getIdCita());
-        sentencia.executeUpdate();
-    }
-
-
-
     public List<Cita> obtenerCitaPorPacienteId(int pacienteId) throws SQLException {
         List<Cita> citas = new ArrayList<>();
         String sql = "SELECT c.idCita, c.fechaCita, e.idEsp, e.nombreEsp " +
@@ -81,6 +62,26 @@ public class CitaDAO {
         return citas;
     }
 
+
+    public void modificarCita(Cita citaAntiguo, Cita citaNuevo) throws SQLException {
+        String sql = "UPDATE cita SET fechaCita = ?, fk_idEsp = ? WHERE idCita = ?";
+        PreparedStatement sentencia = conexion.prepareStatement(sql);
+        sentencia.setDate(1, new java.sql.Date(citaNuevo.getFechaCita().getTime()));
+        sentencia.setInt(2, citaNuevo.getFkIdEsp());
+        sentencia.setInt(3, citaAntiguo.getIdCita());
+        sentencia.executeUpdate();
+    }
+
+    public void eliminarCita(Cita cita) throws SQLException {
+        String sql = "DELETE FROM cita WHERE idCita = ?";
+
+        PreparedStatement sentencia = conexion.prepareStatement(sql);
+        sentencia.setInt(1, cita.getIdCita());
+        sentencia.executeUpdate();
+    }
+
+
+
     public int obtenerSiguienteIdCita() throws SQLException {
         String sql = "SELECT MAX(idCita) AS ultimo FROM cita";
         Statement st = conexion.createStatement();
@@ -88,26 +89,8 @@ public class CitaDAO {
         if (rs.next()) {
             return rs.getInt("ultimo") + 1;
         }
-        return 1; // Si no hay ninguna cita, empezamos en 1
+        return 1;
     }
-
-    public List<Especialidad> obtenerTodas() throws SQLException {
-        List<Especialidad> especialidades = new ArrayList<>();
-        String sql = "SELECT idEsp, nombreEsp FROM especialidad";
-
-        try (PreparedStatement stmt = conexion.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-
-                int id = rs.getInt("idEsp");
-                String nombre = rs.getString("nombreEsp");
-                especialidades.add(new Especialidad(id, nombre));
-            }
-        }
-        return especialidades;
-    }
-
 
 
 

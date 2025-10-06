@@ -18,7 +18,6 @@
             <Label layoutX="29.0" layoutY="365.0" prefHeight="83.0" prefWidth="634.0" style="-fx-background-color: #828282; -fx-background-radius: 20;" />
             <Label layoutX="7.0" layoutY="24.0" prefHeight="54.0" prefWidth="678.0" style="-fx-background-color: #828282; -fx-background-radius: 20;" />
             <Label layoutX="18.0" layoutY="134.0" prefHeight="182.0" prefWidth="656.0" style="-fx-background-color: #828282; -fx-background-radius: 20;" />
-            <ComboBox fx:id="cbEspecialidad" layoutX="346.0" layoutY="394.0" prefWidth="150.0" promptText="Cirugia" />
             <Label layoutX="146.0" layoutY="394.0" prefHeight="35.0" prefWidth="162.0" text="Especialidad">
                <font>
                   <Font name="System Bold" size="24.0" />
@@ -50,24 +49,25 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
+            <Label layoutX="260.0" layoutY="482.0" text="Citas del Paciente" textFill="RED">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
 
             <TextField fx:id="tfTelefono" layoutX="197.0" layoutY="280.0" promptText="605048521" />
             <TextField fx:id="tfDireccion" layoutX="197.0" layoutY="237.0" prefHeight="25.0" prefWidth="433.0" promptText="C/ Nueva, 2" />
             <TextField fx:id="tfNombre" layoutX="197.0" layoutY="193.0" prefHeight="25.0" prefWidth="433.0" promptText="Antonio García López " />
             <TextField fx:id="tfDNI" layoutX="104.0" layoutY="151.0" promptText="40254788A" />
 
+            <ComboBox fx:id="cbEspecialidad" layoutX="346.0" layoutY="394.0" prefWidth="150.0" promptText="Cirugia" />
             <TableView fx:id="tvCitasPaciente" layoutX="68.0" layoutY="517.0" prefHeight="188.0" prefWidth="533.0">
-              <columns>
-                <TableColumn fx:id="colIdCita" prefWidth="196.0" text="Nª Cita"/>
-                <TableColumn fx:id="colFecha" prefWidth="158.0" text="Fecha" />
-                <TableColumn fx:id="colEspecialidad" prefWidth="178.0" text="Especialidad" />
+               <columns>
+                 <TableColumn fx:id="colIdCita" prefWidth="196.0" text="Nª Cita"/>
+                 <TableColumn fx:id="colFecha" prefWidth="158.0" text="Fecha" />
+                 <TableColumn fx:id="colEspecialidad" prefWidth="178.0" text="Especialidad" />
               </columns>
             </TableView>
-            <Label layoutX="260.0" layoutY="482.0" text="Citas del Paciente" textFill="RED">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Label>
             <Button fx:id="btNuevaCita" layoutX="49.0" layoutY="741.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="119.0" style="-fx-background-radius: 35;" text="Nueva Cita" onAction="#nuevaCita" />
             <Button fx:id="btBorrarCita" layoutX="500.0" layoutY="741.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="119.0" style="-fx-background-radius: 35;" text="Borrar Cita" onAction="#borrarCita" />
             <Button fx:id="btModificarCita" layoutX="275.0" layoutY="741.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="119.0" style="-fx-background-radius: 35;" text="Modificar Cita" onAction="#modificarCita" />
