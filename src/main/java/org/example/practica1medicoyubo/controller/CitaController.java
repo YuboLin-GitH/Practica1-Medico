@@ -6,8 +6,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import org.example.practica1medicoyubo.DAO.CitaDAO;
 import org.example.practica1medicoyubo.DAO.EspecialidadDAO;
+import org.example.practica1medicoyubo.DAO.UsuarioDAO;
 import org.example.practica1medicoyubo.domain.Cita;
 import org.example.practica1medicoyubo.domain.Especialidad;
 import org.example.practica1medicoyubo.domain.Paciente;
@@ -50,6 +52,12 @@ public class CitaController {
 
     @FXML
     public TableView<Cita> tvCitasPaciente;
+    @FXML
+    private TableColumn<Cita, Integer> colIdCita;
+    @FXML
+    private TableColumn<Cita, java.sql.Date> colFecha;
+    @FXML
+    private TableColumn<Cita, String> colEspecialidad;
 
 
 
@@ -86,7 +94,11 @@ public class CitaController {
     public void initialize() {
 
         cargarEspecialidades();
-        enlazarSelecciónDeTabla();
+        enlazarSeleccionDeTabla();
+
+        colIdCita.setCellValueFactory(new PropertyValueFactory<>("idCita"));
+        colFecha.setCellValueFactory(new PropertyValueFactory<>("fechaCita"));
+        colEspecialidad.setCellValueFactory(new PropertyValueFactory<>("nombreEsp"));
     }
 
     public void setPaciente(Paciente paciente) {
@@ -131,12 +143,13 @@ public class CitaController {
             }
         }
     }
-    private void enlazarSelecciónDeTabla() {
+    private void enlazarSeleccionDeTabla() {
         tvCitasPaciente.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
-                citaSeleccionada = newVal; // 赋值选中的预约
-                // 加载预约数据到表单（日期+科室）
-                dpFechaCita.setValue(newVal.getFechaCita().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+                citaSeleccionada = newVal;
+                if (newVal.getFechaCita() != null) {
+                    dpFechaCita.setValue(((java.sql.Date) newVal.getFechaCita()).toLocalDate());
+                }
                 for (Especialidad esp : cbEspecialidad.getItems()) {
                     if (esp.getIdEsp() == newVal.getFkIdEsp()) {
                         cbEspecialidad.setValue(esp);
@@ -146,36 +159,41 @@ public class CitaController {
             }
         });
     }
-
     @FXML
     public void verCita() {
-        if (paciente == null) {
-            AlertUtils.mostrarError("introduceze DNI de paciente");
-            return;
-        }
-
         try {
-            citaDAO.conectar();
-
-            List<Cita> citas = citaDAO.obtenerCitaPorPacienteId(paciente.getIdPaciente());
-            if (citas.isEmpty()) {
-                tvCitasPaciente.setItems(null);
-                AlertUtils.mostrarError("No se encontro la cita");
+            String dniIngresado = tfDNI.getText().trim();
+            if (dniIngresado.isEmpty()) {
+                AlertUtils.mostrarError("Introduce un DNI válido");
                 return;
             }
 
-            tvCitasPaciente.setItems(FXCollections.observableArrayList(citas));
-        } catch (Exception e) {
-            AlertUtils.mostrarError("Error：" + e.getMessage());
-        } finally {
-            try {
-                citaDAO.desconectar();
-            } catch (SQLException e) {
-                e.printStackTrace();
+
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
+            usuarioDAO.conectar();
+            Paciente nuevoPaciente = usuarioDAO.buscarPorDni(dniIngresado);
+            usuarioDAO.desconectar();
+
+            if (nuevoPaciente == null) {
+                AlertUtils.mostrarError("No se encontró paciente con ese DNI");
+                return;
             }
+
+
+            this.paciente = nuevoPaciente;
+            mostrarDatosPaciente();
+
+
+            citaDAO.conectar();
+            List<Cita> citas = citaDAO.obtenerCitaPorPacienteId(paciente.getIdPaciente());
+            tvCitasPaciente.setItems(FXCollections.observableArrayList(citas));
+            citaDAO.desconectar();
+
+        } catch (Exception e) {
+            AlertUtils.mostrarError("Error al buscar paciente: " + e.getMessage());
+            e.printStackTrace();
         }
     }
-
     @FXML
     public void nuevaCita() {
 

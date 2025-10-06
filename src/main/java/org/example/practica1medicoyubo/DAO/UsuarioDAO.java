@@ -42,6 +42,49 @@ public class UsuarioDAO {
     }
 
 
+    public List<Paciente> obtenerPacientes() throws SQLException {
+        List<Paciente> pacientes = new ArrayList<>();
+        String sql = "SELECT * FROM paciente";
+
+        PreparedStatement sentencia = conexion.prepareStatement(sql);
+        ResultSet resultado = sentencia.executeQuery();
+
+        while (resultado.next()) {
+            Paciente p = new Paciente();
+            p.setIdPaciente(resultado.getInt("idPaciente"));
+            p.setDni(resultado.getString("dni"));
+            p.setNombre(resultado.getString("nombre"));
+            p.setPassword(resultado.getString("password"));
+            p.setDireccion(resultado.getString("direccion"));
+            p.setTelefono(resultado.getInt("telefono"));
+            pacientes.add(p);
+        }
+
+        return pacientes;
+    }
+
+
+    public Paciente buscarPorDni(String dni) throws SQLException {
+        String sql = "SELECT * FROM paciente WHERE dni = ?";
+        try (PreparedStatement sentencia = conexion.prepareStatement(sql)) {
+            sentencia.setString(1, dni);
+            ResultSet resultado = sentencia.executeQuery();
+
+            if (resultado.next()) {
+                Paciente p = new Paciente();
+                p.setIdPaciente(resultado.getInt("idPaciente"));
+                p.setDni(resultado.getString("dni"));
+                p.setNombre(resultado.getString("nombre"));
+                p.setPassword(resultado.getString("password"));
+                p.setDireccion(resultado.getString("direccion"));
+                p.setTelefono(resultado.getInt("telefono"));
+                return p;
+            }
+        }
+        return null;
+    }
+
+
     public List<Paciente> obtenerUsuarios() throws SQLException {
 
         List<Paciente> Usuarios = new ArrayList<>();
@@ -85,6 +128,9 @@ public class UsuarioDAO {
     }
 
   }
+
+
+
 
 
 }
