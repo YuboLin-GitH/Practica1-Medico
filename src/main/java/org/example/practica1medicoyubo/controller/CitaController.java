@@ -134,6 +134,12 @@ public class CitaController {
 
             cbEspecialidad.getItems().addAll(especialidades);
 
+            for (Especialidad esp : especialidades) {
+                if ("Cirugía".equals(esp.getNombreEsp())) {
+                    cbEspecialidad.setValue(esp);
+                    break;
+                }
+            }
         } catch (Exception e) {
 
             AlertUtils.mostrarError("Error：" + e.getMessage());
@@ -212,7 +218,7 @@ public class CitaController {
         LocalDate fechaSeleccionada = dpFechaCita.getValue();
         Especialidad espSeleccionada = cbEspecialidad.getValue();
         if (fechaSeleccionada == null || espSeleccionada == null) {
-            AlertUtils.mostrarError("Elegir fecha de cita");
+            AlertUtils.mostrarError("Elegir fecha de cita o Especialidad");
             return;
         }
 

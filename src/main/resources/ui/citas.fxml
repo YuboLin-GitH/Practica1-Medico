@@ -60,7 +60,7 @@
             <TextField fx:id="tfNombre" layoutX="197.0" layoutY="193.0" prefHeight="25.0" prefWidth="433.0" promptText="Antonio García López " />
             <TextField fx:id="tfDNI" layoutX="104.0" layoutY="151.0" promptText="40254788A" />
 
-            <ComboBox fx:id="cbEspecialidad" layoutX="346.0" layoutY="394.0" prefWidth="150.0" promptText="Cirugia" />
+            <ComboBox fx:id="cbEspecialidad" layoutX="346.0" layoutY="394.0" prefWidth="150.0" promptText="Cirugía" />
             <TableView fx:id="tvCitasPaciente" layoutX="68.0" layoutY="517.0" prefHeight="188.0" prefWidth="533.0">
                <columns>
                  <TableColumn fx:id="colIdCita" prefWidth="196.0" text="Nª Cita"/>
