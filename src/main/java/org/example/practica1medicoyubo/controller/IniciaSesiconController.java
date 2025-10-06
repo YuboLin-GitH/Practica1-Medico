@@ -4,6 +4,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.fxml.FXML;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import org.example.practica1medicoyubo.DAO.UsuarioDAO;
 import org.example.practica1medicoyubo.domain.Paciente;
@@ -23,7 +25,20 @@ public class IniciaSesiconController {
     @FXML
     private Button btIniciar;
 
+    @FXML
+    public void initialize() {
 
+        tfPaciente.setOnKeyPressed(this::handleEnterKey);
+        pfPassword.setOnKeyPressed(this::handleEnterKey);
+    }
+
+
+    private void handleEnterKey(KeyEvent event) {
+
+        if (event.getCode() == KeyCode.ENTER) {
+            validarUsuario();
+        }
+    }
 
     @FXML
     private void validarUsuario() {

@@ -7,6 +7,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import org.example.practica1medicoyubo.DAO.CitaDAO;
 import org.example.practica1medicoyubo.DAO.EspecialidadDAO;
 import org.example.practica1medicoyubo.DAO.UsuarioDAO;
@@ -73,7 +75,6 @@ public class CitaController {
 
 
 
-
     public CitaController() {
         citaDAO = new CitaDAO();
 
@@ -95,11 +96,19 @@ public class CitaController {
 
         cargarEspecialidades();
         enlazarSeleccionDeTabla();
-
+        tfDNI.setOnKeyPressed(this::manejarEnterParaVerCita);
         colIdCita.setCellValueFactory(new PropertyValueFactory<>("idCita"));
         colFecha.setCellValueFactory(new PropertyValueFactory<>("fechaCita"));
         colEspecialidad.setCellValueFactory(new PropertyValueFactory<>("nombreEsp"));
     }
+
+    private void manejarEnterParaVerCita(KeyEvent event) {
+
+        if (event.getCode() == KeyCode.ENTER) {
+            verCita();
+        }
+    }
+
 
     public void setPaciente(Paciente paciente) {
         this.paciente = paciente;
@@ -159,8 +168,13 @@ public class CitaController {
             }
         });
     }
+
+
+
     @FXML
     public void verCita() {
+
+
         try {
             String dniIngresado = tfDNI.getText().trim();
             if (dniIngresado.isEmpty()) {
